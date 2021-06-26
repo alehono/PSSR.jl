@@ -13,10 +13,6 @@ function read() # Função que lê os arquivos e transforma em vetores com os ca
     for i in 1:length(y)
         y[i] = Est[i][17]
     end
-
-    for k in 1:length(y)
-        println(x[k], "  ", y[k])
-    end
     
     return x, y
 end
