@@ -4,7 +4,7 @@ include("./Classifier.jl"), include("./Read.jl")
 
 # Write your package code here.
 
-x, y = read()
-X, Y = classifier(x, y, 3)
+x, y = read("C:/Users/honoa/IC")
+X, Y = classifier(x[1], y[1], 3)
 
 end

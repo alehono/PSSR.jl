@@ -38,7 +38,7 @@ function classifier(x, y, windowsize)
         end
     end
 
-    for i in 1:(length(x)-windowsize+1)
+    for i in 1:(size(Y, 2))
         if y[i+skip] == 'H'
             Y[:,i] = [1, 0, 0]
         end

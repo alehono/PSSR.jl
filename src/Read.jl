@@ -1,18 +1,25 @@
 # Definindo o conjunto de dados:
-function read() # Função que lê os arquivos e transforma em vetores com os caracteres.
+function read(path) # Função que lê os arquivos e transforma em vetores com os caracteres.
     
-    Seq = readlines(open("C:/Users/honoa/Machine Learning/Protein/1UBQ.fasta", "r"))[2] # Lista de Resíduos
-    Est = readlines(open("C:/Users/honoa/Machine Learning/Protein/1ubq.dssp", "r"))[29:end] # Lista da Estrutura Secundária de Cada Resíduo
+    protein_list = readlines(open(path*"/lista-de-proteinas.txt", "r"))
+    fasta = readlines(open(path*"/proteinas.fa", "r"))
 
-    x = Vector(undef, length(Seq))
-    for j in 1:length(x)
-        x[j] = Seq[j]
+    Seq = Vector{Vector{Char}}(undef, length(protein_list)) # Lista de Resíduos
+    Est = Vector{Vector{Char}}(undef, length(protein_list)) # Lista da Estrutura Secundária de Cada Resíduo
+
+    for i in 1:length(protein_list)
+        println("Lendo os dados relativos à proteína " * protein_list[i])
+        # Arquivo fasta
+        Seq[i] = collect(fasta[2*i])
+
+        dssp_file = readlines(open(path * "/DSSP/" * protein_list[i] * ".dssp"))[29:end]
+        y = Vector{Char}(undef, length(dssp_file))
+        for j in 1:length(y)
+            y[j] = dssp_file[j][17]
+        end
+        Est[i] = y
+
     end
 
-    y = Vector(undef, length(x))
-    for i in 1:length(y)
-        y[i] = Est[i][17]
-    end
-    
-    return x, y
+    return Seq, Est
 end
