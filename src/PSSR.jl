@@ -1,6 +1,7 @@
 module PSSR
 
-include("./Classifier.jl"), include("./Read.jl")
+include("./Classifier.jl")
+include("./Read.jl")
 
 # Write your package code here.
 
