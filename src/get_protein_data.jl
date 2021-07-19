@@ -1,5 +1,5 @@
 # Definindo o conjunto de dados:
-function read(path) # Função que lê os arquivos e transforma em vetores com os caracteres.
+function get_protein_data(path) # Função que lê os arquivos e transforma em vetores com os caracteres.
     
     protein_list = readlines(open(path*"/lista-de-proteinas.txt", "r"))
     fasta = readlines(open(path*"/proteinas.fa", "r"))
@@ -18,7 +18,7 @@ function read(path) # Função que lê os arquivos e transforma em vetores com o
             y[j] = dssp_file[j][17]
         end
         Est[i] = y
-
+        
     end
 
     return Seq, Est

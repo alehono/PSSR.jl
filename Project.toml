@@ -3,6 +3,9 @@ uuid = "4c4a4620-e8db-47aa-8880-c295f4ff165a"
 authors = ["alehono <hono.alexandre@gmail.com> and contributors"]
 version = "0.1.0"
 
+[deps]
+ProgressMeter = "92933f4c-e287-5a05-a399-4b506db050ca"
+
 [compat]
 julia = "1"
 
