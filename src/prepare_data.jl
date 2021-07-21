@@ -30,11 +30,10 @@ const codificadordeSS3 = Dict(
     'C' => [0,0,1]
 )
 
-function build_matrix_X(sequence::Vector{Char}, windowsize::Int)
+function build_matrix_X(sequence::Vector{Char}, windowsize::Int, skip)
 
     global codificadordeaminoacidos
 
-    skip = Int64((windowsize-1)/2)
     X = Matrix{Int64}(undef, 21*windowsize, length(sequence)-2*skip) # que tenha tantas colunas quanto aminoácidos na sequência em questão, e tantas linhas quanto possíveis SS
     
     for i in 1:(length(sequence)-windowsize+1)
@@ -54,12 +53,11 @@ function build_matrix_X(sequence::Vector{Char}, windowsize::Int)
 
 end
 
-function build_matrix_Y(structure::Vector{Char}, windowsize::Int)
+function build_matrix_Y(structure::Vector{Char}, windowsize::Int, skip)
 
     global codificadordeSS8
     global codificadordeSS3
 
-    skip = Int64((windowsize-1)/2)
     Y = Matrix{Int64}(undef, 3, length(structure)-2*skip) # que tenha tantas colunas quanto aminoácidos na sequência em questão, e tantas linhas quanto possíveis SS
     
     structure_ss8 = [ codificadordeSS8[el] for el in structure ]
@@ -73,7 +71,7 @@ end
 
 function prepare_data(listofsequences::Vector{Vector{Char}}, listofstructures::Vector{Vector{Char}}, windowsize::Int, porcentagem_split=0.6)
 
-    skip = Int64((windowsize-1)/2)
+    skip = Int64((windowsize-1)/2) # parece que não está sendo usado para nada.
 
     numero_de_proteinas = length(listofsequences)
     indice_split = round(Int,numero_de_proteinas*porcentagem_split)
@@ -87,15 +85,17 @@ function prepare_data(listofsequences::Vector{Vector{Char}}, listofstructures::V
     Y_train = Matrix{Int64}(undef, 3, 0)
     Y_test = copy(Y_train)
 
+    println("Building the Train Datasets")
     @showprogress for (sequence, structure) in zip(sequencias_de_treino, estruturas_de_treino) # for sequence, structure in (train)
-        X_train = hcat(X_train, build_matrix_X(sequence, windowsize))
-        Y_train = hcat(Y_train, build_matrix_Y(structure, windowsize))
+        X_train = hcat(X_train, build_matrix_X(sequence, windowsize, skip))
+        Y_train = hcat(Y_train, build_matrix_Y(structure, windowsize, skip))
     end # for sequence,structure in train
     println("Done building the Train Datasets")
 
+    println("Building the Test Datasets")
     @showprogress for (sequence, structure) in zip(sequencias_de_teste, estruturas_de_teste) # for sequence, structure in (test)
-        X_test = hcat(X_test, build_matrix_X(sequence, windowsize))
-        Y_test = hcat(Y_test, build_matrix_Y(structure, windowsize))
+        X_test = hcat(X_test, build_matrix_X(sequence, windowsize, skip))
+        Y_test = hcat(Y_test, build_matrix_Y(structure, windowsize, skip))
     end # for sequence,structure in test
     println("Done building the Test Datasets")
        

@@ -1,17 +1,18 @@
-using Flux
-using Flux: train!
-using Flux: throttle
-using IterTools
+predictor = Chain(Dense(1, 1), softmax)
 
-function nettrain(mi::Float64, x_train, y_train, x_test, y_test, niter::Int)
+function nettrain(predictor, mi::Float64, x_train, y_train, x_test, y_test, niter::Int)
 
-    dataset = [(x_train, y_train)] # batch
+    traindataset = [(x_train, y_train)] # batch
+    testdataset = [(x_test, y_test)]
     opt = Descent(mi)
-    predict = Dense(1, 1)
-    parameters = params(predict)
-    loss(x, y) = Flux.Losses.mse(predict(x), y)
-   
-    train!(loss, parameters, ncycle(dataset, niter), opt, cb = throttle(() -> println("Training"), 2))
+    parameters = params(predictor)
+    loss(x, y) = Flux.Losses.mse(predictor(x), y)
+
+    train!(loss, parameters, ncycle(traindataset, niter), opt, cb = throttle(() -> println("Training"), 2))
 
     return parameters
+end
+
+function accuracy(x, y)
+    return median(predictor(x) == y)
 end

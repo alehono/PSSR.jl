@@ -4,7 +4,14 @@ authors = ["alehono <hono.alexandre@gmail.com> and contributors"]
 version = "0.1.0"
 
 [deps]
+CUDA = "052768ef-5323-5732-b1bb-66c8b64840ba"
+ChainRules = "082447d4-558c-5d27-93f4-14fc19e9eca2"
+Flux = "587475ba-b771-5e3f-ad9e-33799f191a9c"
+IterTools = "c8e1da08-722c-5040-9ed9-7db0dc04731e"
+NNlibCUDA = "a00861dc-f156-4864-bf3c-e6376f28a68d"
 ProgressMeter = "92933f4c-e287-5a05-a399-4b506db050ca"
+SpecialFunctions = "276daf66-3868-5448-9aa4-cd146d93841b"
+Zygote = "e88e6eb3-aa80-5325-afca-941959d7151f"
 
 [compat]
 julia = "1"
