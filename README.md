@@ -12,3 +12,7 @@ providing the path including the folder where the files were extracted to, as th
 `seq, str = get_protein_data("complete/directory/to_the/files")`
 
 which will create two arrays; the first containing the aminoacids' in each sequence and the other, the structures assigned to each residue.
+
+### Transforming the files into the training and testing datasets:
+
+To generate the 
