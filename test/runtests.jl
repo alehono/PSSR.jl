@@ -4,5 +4,5 @@ using Test
 
 @testset "PSSR.jl" begin
     # Write your tests here.
-    get_protein_data("C:/Users/honoa/IC")
+    get_protein_data("C:/Users/honoa/Machine Learning/Protein")
 end
