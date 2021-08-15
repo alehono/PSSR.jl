@@ -71,6 +71,8 @@ function build_matrix_Y(structure::Vector{Char}, windowsize::Int)
     return(Y)
 end
 
+using ProgressMeter
+
 function prepare_data(listofsequences::Vector{Vector{Char}}, listofstructures::Vector{Vector{Char}}, windowsize::Int, porcentagem_split=0.6)
 
     skip = Int64((windowsize-1)/2)
@@ -88,15 +90,23 @@ function prepare_data(listofsequences::Vector{Vector{Char}}, listofstructures::V
     Y_test = copy(Y_train)
 
     @showprogress for (sequence, structure) in zip(sequencias_de_treino, estruturas_de_treino) # for sequence, structure in (train)
-        X_train = hcat(X_train, build_matrix_X(sequence, windowsize))
-        Y_train = hcat(Y_train, build_matrix_Y(structure, windowsize))
+        if length(sequence) >= windowsize
+            X_train = hcat(X_train, build_matrix_X(sequence, windowsize))
+            Y_train = hcat(Y_train, build_matrix_Y(structure, windowsize))
+        else
+            continue
+        end
     end # for sequence,structure in train
     println("Done building the Train Datasets")
 
-    @showprogress for (sequence, structure) in zip(sequencias_de_teste, estruturas_de_teste) # for sequence, structure in (test)
-        X_test = hcat(X_test, build_matrix_X(sequence, windowsize))
-        Y_test = hcat(Y_test, build_matrix_Y(structure, windowsize))
-    end # for sequence,structure in test
+    @showprogress for (sequence, structure) in zip(sequencias_de_teste, estruturas_de_teste) # for sequence, structure in (train)
+        if length(sequence) >= windowsize
+            X_test = hcat(X_test, build_matrix_X(sequence, windowsize))
+            Y_test = hcat(Y_test, build_matrix_Y(structure, windowsize))
+        else
+            continue
+        end
+    end # for sequence,structure in train
     println("Done building the Test Datasets")
        
     return X_train, Y_train, X_test, Y_test
