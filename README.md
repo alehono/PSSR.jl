@@ -4,4 +4,4 @@
 
 Download and extract the files in a directory. Using the function
 
-`<addr>` element here instead.
+`get_protein_data("directory")` element here instead.
