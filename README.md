@@ -17,7 +17,6 @@ which will create two arrays; the first containing the aminoacids' in each seque
 
 To generate the train and test datasets, you can use the function `prepare_data`, which will provide four matrices, 
 two representing the train and test datasets for the residues and two for the structures. 
-
 This function takes four arguments: the list of sequences, i.e., the first array generated from the previous function; 
 a list of structures, i.e., the second array; a window size; and 
 the fraction of sequences that will be used for training data, which is set to 0.6 by default.
